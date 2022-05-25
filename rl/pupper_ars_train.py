@@ -75,7 +75,7 @@ class Worker(object):
             
         self.delta_std = delta_std
         self.rollout_length = rollout_length
-
+        self.plane_tilt = 0.0
         
     def get_weights_plus_stats(self):
         """ 
@@ -96,7 +96,7 @@ class Worker(object):
 
         total_reward = 0.
         steps = 0
-
+        self.env.plane_tilt = self.plane_tilt
         ob = self.env.reset()
         for i in range(rollout_length):
             action = self.policy.act(ob)
@@ -246,10 +246,13 @@ class ARSLearner(object):
         self.optimizer = optimizers.SGD(self.w_policy, self.step_size)        
         print("Initialization of ARS complete.")
 
-    def aggregate_rollouts(self, num_rollouts = None, evaluate = False):
+    def aggregate_rollouts(self, num_rollouts = None, evaluate = False, plane_tilt = 0.0):
         """ 
         Aggregate update step from rollouts generated in parallel.
         """
+
+        for worker in self.workers:
+            worker.plane_tilt = plane_tilt
 
         if num_rollouts is None:
             num_deltas = self.num_deltas
@@ -342,9 +345,10 @@ class ARSLearner(object):
 
         start = time.time()
         best_mean_rewards = -1e30
+
+        plane_tilt = 0
         
         for i in range(num_iter):
-            
             t1 = time.time()
             self.train_step()
             t2 = time.time()
@@ -354,7 +358,7 @@ class ARSLearner(object):
             # record statistics every 10 iterations
             if ((i + 1) % 10 == 0):
                 
-                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True)
+                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True, plane_tilt = plane_tilt)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 

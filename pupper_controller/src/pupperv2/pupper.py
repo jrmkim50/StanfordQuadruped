@@ -80,6 +80,7 @@ class Pupper:
         self.command.height = action['height'] or self.config.default_z_ref
         self.command.pitch = action['pitch'] or 0.0
         self.config.x_shift = action['com_x_shift'] or self.config.x_shift
+        self.config.overlap_time = action['overlap_time'] or self.config.overlap_time
 
         # Clip actions to reasonable values
         self.command.horizontal_velocity = np.clip(self.command.horizontal_velocity,
@@ -100,6 +101,7 @@ class Pupper:
         self.config.x_shift = np.clip(self.config.x_shift,
                                       self.config.min_x_shift,
                                       self.config.max_x_shift)
+        self.config.overlap_time = np.clip(self.config.overlap_time, 0.0, self.config.max_overlap_time)
 
     def step(self, action):
         """
@@ -120,8 +122,11 @@ class Pupper:
             self.state.final_foot_locations)
         return self.get_observation()
 
-    def reset(self):
+    def reset(self, plane_tilt = 0.0):
         # TODO figure out how to do a slow stand on real robot, but in sim doing 1) slow stand for realistic mode 2) instantaenous stand for training mode
+        if not self.run_on_robot:
+            self.hardware_interface.plane_tilt = plane_tilt
+            print(plane_tilt)
         self.hardware_interface.deactivate()
         self.hardware_interface.activate()
         return self.get_observation()

@@ -25,14 +25,14 @@ class PupperEnv(gym.Env):
             render_meshes: If simulating, whether to use visually detailed model or basic model
             plane_tilt: Tilt in radians of the ground plane
         """
-        self.action_keys = ["x_velocity", "y_velocity", "yaw_rate", "height", "pitch", "x_com_shift"]
+        self.action_keys = ["x_velocity", "y_velocity", "yaw_rate", "height", "pitch", "x_com_shift", "overlap_time"]
 
         # Defines lower and upper bounds on possible actions
         # Order of elements:
-        # x velocity, y velocity, yaw rate, height, pitch, x_com_shift
+        # x velocity, y velocity, yaw rate, height, pitch, x_com_shift, overlap_time
         self.action_space = gym.spaces.Box(
-            np.array([-1.2, -0.4, -2.0, -0.14, -0.1, -0.01]),
-            np.array([1.2, 0.4, 2.0, -0.08, 0.1, 0.01]),
+            np.array([-1.2, -0.4, -2.0, -0.14, -0.1, -0.01, 0]),
+            np.array([1.2, 0.4, 2.0, -0.08, 0.1, 0.01, 0.2]),
             dtype=np.float32)
 
         # Defines expected lower and upper bounds on observations
@@ -59,7 +59,7 @@ class PupperEnv(gym.Env):
         self.env_time_step = self.pupper.config.dt
 
     def reset(self):
-        ob = self.pupper.reset()
+        ob = self.pupper.reset(self.plane_tilt)
         self.pupper.slow_stand(do_sleep=False)
         self.pupper.start_trot()
         return self.pupper.get_observation()
@@ -95,7 +95,8 @@ class PupperEnv(gym.Env):
                            'yaw_rate': actions[2],
                            'height': actions[3],
                            'pitch': actions[4],
-                           'com_x_shift': actions[5]}
+                           'com_x_shift': actions[5],
+                           'overlap_time': actions[6]}
         observation = self.pupper.step(action_dict)
         reward = self.reward(observation)
         done = self.terminate(observation)

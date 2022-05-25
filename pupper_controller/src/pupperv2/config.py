@@ -54,6 +54,7 @@ class Config:
         self.overlap_time = (
             0.05  # duration of the phase where all four feet are on the ground
         )
+        self.max_overlap_time = 0.2
         self.swing_time = (
             0.15  # duration of the phase when only two feet are on the ground
         )
