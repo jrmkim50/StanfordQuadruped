@@ -5,3 +5,4 @@
 *.egg-info
 rl/data/
 dump.rdb
+data
