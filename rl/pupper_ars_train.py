@@ -19,6 +19,7 @@ import arspb.optimizers as optimizers
 from arspb.policies import *
 import socket
 from arspb.shared_noise import *
+import math
 
 ##############################
 #temp hack to create an envs_v2 pupper env
@@ -349,6 +350,8 @@ class ARSLearner(object):
         plane_tilt = 0
         
         for i in range(num_iter):
+            if i % (num_iter // 10) == 0 and i != 0:
+                plane_tilt += (math.pi / 180 * 5)
             t1 = time.time()
             self.train_step()
             t2 = time.time()
@@ -357,8 +360,8 @@ class ARSLearner(object):
 
             # record statistics every 10 iterations
             if ((i + 1) % 10 == 0):
-                
-                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True, plane_tilt = plane_tilt)
+                # making num_rollouts = 1
+                rewards = self.aggregate_rollouts(num_rollouts = 1, evaluate = True, plane_tilt = plane_tilt)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 

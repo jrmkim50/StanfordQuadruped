@@ -126,7 +126,6 @@ class Pupper:
         # TODO figure out how to do a slow stand on real robot, but in sim doing 1) slow stand for realistic mode 2) instantaenous stand for training mode
         if not self.run_on_robot:
             self.hardware_interface.plane_tilt = plane_tilt
-            print(plane_tilt)
         self.hardware_interface.deactivate()
         self.hardware_interface.activate()
         return self.get_observation()
