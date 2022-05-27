@@ -354,7 +354,7 @@ class ARSLearner(object):
             # record statistics every 10 iterations
             if ((i + 1) % 10 == 0):
                 
-                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True)
+                rewards = self.aggregate_rollouts(num_rollouts = 10, evaluate = True)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 
@@ -483,7 +483,7 @@ if __name__ == '__main__':
     parser.add_argument('--shift', type=float, default=0)
     parser.add_argument('--seed', type=int, default=37)
     parser.add_argument('--policy_type', type=str, help="Policy type, linear or nn (neural network)", default= 'nn')
-    parser.add_argument('--dir_path', type=str, default='data')
+    parser.add_argument('--dir_path', type=str, default='data_baseline')
 
     # for ARS V1 use filter = 'NoFilter'
     parser.add_argument('--filter', type=str, default='MeanStdFilter')
