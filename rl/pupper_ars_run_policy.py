@@ -12,6 +12,7 @@ from arspb import policies
 import time
 import arspb.trained_policies as tp
 import os
+import math
 
 #temp hack to create an envs_v2 pupper env
 
@@ -21,7 +22,7 @@ import pickle
 from pupper_controller.src.pupperv2 import pupper_env
 
 def create_pupper_env():
-  env = pupper_env.PupperEnv(render=True)
+  env = pupper_env.PupperEnv(render=True, plane_tilt=-math.pi / 180 * 20)
   return env
 
 
