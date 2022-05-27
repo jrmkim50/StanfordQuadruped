@@ -350,9 +350,9 @@ class ARSLearner(object):
         plane_tilt = 0
         
         for i in range(num_iter):
-            if i % (num_iter // 10) == 0 and i != 0:
-                plane_tilt += (math.pi / 180 * 5)
-                print(plane_tilt)
+            # if i % (num_iter // 10) == 0 and i != 0:
+            #     plane_tilt += (math.pi / 180 * 5)
+            #     print(plane_tilt)
             t1 = time.time()
             self.train_step()
             t2 = time.time()
@@ -362,7 +362,8 @@ class ARSLearner(object):
             # record statistics every 10 iterations
             if ((i + 1) % 10 == 0):
                 # making num_rollouts = 1
-                rewards = self.aggregate_rollouts(num_rollouts = 10, evaluate = True, plane_tilt = -plane_tilt)
+                # -plane_tilt
+                rewards = self.aggregate_rollouts(num_rollouts = 10, evaluate = True, plane_tilt = 0)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 
