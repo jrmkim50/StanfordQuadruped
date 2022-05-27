@@ -80,7 +80,7 @@ class Pupper:
         self.command.height = action['height'] or self.config.default_z_ref
         self.command.pitch = action['pitch'] or 0.0
         self.config.x_shift = action['com_x_shift'] or self.config.x_shift
-        self.config.overlap_time = action['overlap_time'] or self.config.overlap_time
+        self.config.overlap_time = action['overlap_time']
 
         # Clip actions to reasonable values
         self.command.horizontal_velocity = np.clip(self.command.horizontal_velocity,
