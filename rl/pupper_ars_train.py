@@ -352,6 +352,7 @@ class ARSLearner(object):
         for i in range(num_iter):
             if i % (num_iter // 10) == 0 and i != 0:
                 plane_tilt += (math.pi / 180 * 5)
+                print(plane_tilt)
             t1 = time.time()
             self.train_step()
             t2 = time.time()
