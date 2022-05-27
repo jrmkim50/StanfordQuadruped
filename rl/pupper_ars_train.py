@@ -361,7 +361,7 @@ class ARSLearner(object):
             # record statistics every 10 iterations
             if ((i + 1) % 10 == 0):
                 # making num_rollouts = 1
-                rewards = self.aggregate_rollouts(num_rollouts = 1, evaluate = True, plane_tilt = -plane_tilt)
+                rewards = self.aggregate_rollouts(num_rollouts = 10, evaluate = True, plane_tilt = -plane_tilt)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 
@@ -453,7 +453,6 @@ def run_ars(params):
                      'action_upper_bound' : ac_ub,
       }
     
-    
     ARS = ARSLearner(env_name=params['env_name'],
                      policy_params=policy_params,
                      num_workers=params['n_workers'], 
@@ -489,7 +488,7 @@ if __name__ == '__main__':
     # for Humanoid-v1 used shift = 5
     parser.add_argument('--shift', type=float, default=0)
     parser.add_argument('--seed', type=int, default=37)
-    parser.add_argument('--policy_type', type=str, help="Policy type, linear or nn (neural network)", default= 'linear')
+    parser.add_argument('--policy_type', type=str, help="Policy type, linear or nn (neural network)", default= 'nn')
     parser.add_argument('--dir_path', type=str, default='data')
 
     # for ARS V1 use filter = 'NoFilter'

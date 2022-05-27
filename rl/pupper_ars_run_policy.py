@@ -22,7 +22,7 @@ import pickle
 from pupper_controller.src.pupperv2 import pupper_env
 
 def create_pupper_env():
-  env = pupper_env.PupperEnv(render=True, plane_tilt=-math.pi / 180 * 20)
+  env = pupper_env.PupperEnv(render=True, plane_tilt=-math.pi / 180 * 5)
   return env
 
 
@@ -56,6 +56,7 @@ def main(argv):
     args.expert_policy_file=tp.getDataPath()+"/"+args.envname+"/nn_policy_plus.npz" 
     if not os.path.exists(args.expert_policy_file):
       args.expert_policy_file=tp.getDataPath()+"/"+args.envname+"/lin_policy_plus.npz"
+  print(args.expert_policy_file)
   data = np.load(args.expert_policy_file, allow_pickle=True)
 
   print('create gym environment:', params["env_name"])
