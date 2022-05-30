@@ -100,7 +100,6 @@ class Worker(object):
         self.env.plane_tilt = self.plane_tilt
         ob = self.env.reset()
         for i in range(rollout_length):
-            ob = np.zeros((14))
             action = self.policy.act(ob)
             ob, reward, done, _ = self.env.step(action)
             steps += 1
@@ -363,7 +362,7 @@ class ARSLearner(object):
             # record statistics every 10 iterations
             if ((i + 1) % 10 == 0):
                 # plane_tilt
-                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True, plane_tilt = -math.pi / 180 * 30)
+                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True, plane_tilt = 0)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 

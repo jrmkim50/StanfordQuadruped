@@ -26,7 +26,7 @@ class PupperEnv(gym.Env):
             plane_tilt: Tilt in radians of the ground plane
         """
         # self.action_keys = ["x_velocity", "y_velocity", "height", "pitch", "x_com_shift"]
-        self.action_keys = ["overlap_time", "swing_time"]
+        self.action_keys = ["x_velocity", "overlap_time", "swing_time"]
 
         # Defines lower and upper bounds on possible actions
         # Order of elements:
@@ -36,8 +36,8 @@ class PupperEnv(gym.Env):
         #     np.array([1.2, 0.4, -0.08, 0.1, 0.01]),
         #     dtype=np.float32)
         self.action_space = gym.spaces.Box(
-            np.array([0.01, 0.01]),
-            np.array([0.25, 0.25]),
+            np.array([-1.2, 0.01, 0.01]),
+            np.array([1.2, 0.25, 0.25]),
             dtype=np.float32)
 
         # Defines expected lower and upper bounds on observations
@@ -71,8 +71,8 @@ class PupperEnv(gym.Env):
 
     def reward(self, observation):
         dx = self.pupper.body_velocity()[0] * self.pupper.config.dt
-        dy = self.pupper.body_velocity()[1] * self.pupper.config.dt
-        return 1.0 + dx - abs(dy)
+        # dy = self.pupper.body_velocity()[1] * self.pupper.config.dt
+        return 1.0 + dx # - abs(dy)
 
     def terminate(self, observation):
         roll = observation[0]
@@ -101,8 +101,9 @@ class PupperEnv(gym.Env):
             #                'height': actions[2],
             #                'pitch': actions[3],
             #                'com_x_shift': actions[4]}
-            action_dict = {'swing_time': actions[0],
-                           'overlap_time': actions[1]}
+            action_dict = {'x_velocity': actions[0],
+                           'swing_time': actions[1],
+                           'overlap_time': actions[2]}
         observation = self.pupper.step(action_dict)
         reward = self.reward(observation)
         done = self.terminate(observation)

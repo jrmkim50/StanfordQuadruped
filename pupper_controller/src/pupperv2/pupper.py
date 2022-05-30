@@ -73,7 +73,7 @@ class Pupper:
         action = defaultdict(int, action)
         self.command = command.Command(self.config.default_z_ref)
         # Update actions or use default value if no value provided
-        x_vel = action['x_velocity'] or 0.3
+        x_vel = action['x_velocity'] or 0.0
         y_vel = action['y_velocity'] or 0.0
         self.command.horizontal_velocity = np.array((x_vel, y_vel))
         self.command.yaw_rate = action['yaw_rate'] or 0.0
@@ -145,6 +145,7 @@ class Pupper:
             [self.hardware_interface.robot_state.roll,
              self.hardware_interface.robot_state.pitch])
         joint_positions = self.hardware_interface.robot_state.position
+        return np.zeros((14))
         return np.concatenate((base_roll_pitch, joint_positions))
 
     def body_velocity(self):
