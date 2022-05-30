@@ -363,7 +363,7 @@ class ARSLearner(object):
             if ((i + 1) % 10 == 0):
                 # making num_rollouts = 1
                 # -plane_tilt
-                rewards = self.aggregate_rollouts(num_rollouts = 10, evaluate = True, plane_tilt = 0)
+                rewards = self.aggregate_rollouts(num_rollouts = 100, evaluate = True, plane_tilt = 0)
                 w = ray.get(self.workers[0].get_weights_plus_stats.remote())
                 np.savez(self.logdir + "/lin_policy_plus_latest", w)
                 
