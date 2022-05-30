@@ -46,6 +46,7 @@ class Config:
         )
 
         #################### GAIT #######################
+        # train dt, overlap_time, swing_time with multiplying observation
         self.dt = 0.01
         self.num_phases = 4
         self.contact_phases = np.array(
