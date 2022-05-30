@@ -25,19 +25,14 @@ class PupperEnv(gym.Env):
             render_meshes: If simulating, whether to use visually detailed model or basic model
             plane_tilt: Tilt in radians of the ground plane
         """
-        # self.action_keys = ["x_velocity", "y_velocity", "height", "pitch", "x_com_shift"]
-        self.action_keys = ["x_velocity", "overlap_time", "swing_time"]
+        self.action_keys = ["x_velocity", "y_velocity", "height", "pitch", "x_com_shift"]
 
         # Defines lower and upper bounds on possible actions
         # Order of elements:
-        # x velocity, y velocity, yaw rate, height, pitch, x_com_shift
-        # self.action_space = gym.spaces.Box(
-        #     np.array([-1.2, -0.4, -0.14, -0.1, -0.01]),
-        #     np.array([1.2, 0.4, -0.08, 0.1, 0.01]),
-        #     dtype=np.float32)
+        # x velocity, y velocity, height, pitch, x_com_shift
         self.action_space = gym.spaces.Box(
-            np.array([-1.2, 0.01, 0.01]),
-            np.array([1.2, 0.25, 0.25]),
+            np.array([-1.2, -0.4, -0.14, -30.0 * np.pi / 180.0, -0.01]),
+            np.array([1.2, 0.4, -0.08, 30.0 * np.pi / 180.0, 0.01]),
             dtype=np.float32)
 
         # Defines expected lower and upper bounds on observations
@@ -58,6 +53,8 @@ class PupperEnv(gym.Env):
         # Overwrite the config values to match the specified action limits
         self.pupper.config.min_x_velocity = -1.2
         self.pupper.config.max_x_velocity = 1.2
+        self.pupper.config.min_y_velocity = -0.4
+        self.pupper.config.max_y_velocity = 0.4
         self.pupper.config.min_yaw_rate = -4.0
         self.pupper.config.max_yaw_rate = 4.0
         
@@ -71,8 +68,8 @@ class PupperEnv(gym.Env):
 
     def reward(self, observation):
         dx = self.pupper.body_velocity()[0] * self.pupper.config.dt
-        # dy = self.pupper.body_velocity()[1] * self.pupper.config.dt
-        return 1.0 + dx # - abs(dy)
+        dy = self.pupper.body_velocity()[1] * self.pupper.config.dt
+        return 1.0 + dx - abs(dy)
 
     def terminate(self, observation):
         roll = observation[0]
@@ -96,14 +93,11 @@ class PupperEnv(gym.Env):
         if isinstance(actions, dict):
             action_dict = actions
         else:
-            # action_dict = {'x_velocity': actions[0],
-            #                'y_velocity': actions[1],
-            #                'height': actions[2],
-            #                'pitch': actions[3],
-            #                'com_x_shift': actions[4]}
             action_dict = {'x_velocity': actions[0],
-                           'swing_time': actions[1],
-                           'overlap_time': actions[2]}
+                           'y_velocity': actions[1],
+                           'height': actions[2],
+                           'pitch': actions[3],
+                           'com_x_shift': actions[4]}
         observation = self.pupper.step(action_dict)
         reward = self.reward(observation)
         done = self.terminate(observation)

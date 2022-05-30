@@ -145,7 +145,6 @@ class Pupper:
             [self.hardware_interface.robot_state.roll,
              self.hardware_interface.robot_state.pitch])
         joint_positions = self.hardware_interface.robot_state.position
-        return np.zeros((14))
         return np.concatenate((base_roll_pitch, joint_positions))
 
     def body_velocity(self):
