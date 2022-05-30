@@ -43,13 +43,9 @@ class PupperEnv(gym.Env):
         # Defines expected lower and upper bounds on observations
         # Order of elements
         # roll, pitch, the 12 joint angles
-        # self.observation_space = gym.spaces.Box(
-        #     np.array([-0.5*math.pi, -0.5*math.pi] + 12*[-0.5*math.pi]),
-        #     np.array([0.5*math.pi, 0.5*math.pi] + 12*[0.5*math.pi]),
-        #     dtype=np.float32)
         self.observation_space = gym.spaces.Box(
-            np.array([0]*14),
-            np.array([0]*14),
+            np.array([-0.5*math.pi, -0.5*math.pi] + 12*[-0.5*math.pi]),
+            np.array([0.5*math.pi, 0.5*math.pi] + 12*[0.5*math.pi]),
             dtype=np.float32)
 
         self.env_step_counter = 0

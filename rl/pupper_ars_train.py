@@ -100,6 +100,7 @@ class Worker(object):
         self.env.plane_tilt = self.plane_tilt
         ob = self.env.reset()
         for i in range(rollout_length):
+            ob = np.zeros((14))
             action = self.policy.act(ob)
             ob, reward, done, _ = self.env.step(action)
             steps += 1
