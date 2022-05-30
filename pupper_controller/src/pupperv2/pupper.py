@@ -73,13 +73,16 @@ class Pupper:
         action = defaultdict(int, action)
         self.command = command.Command(self.config.default_z_ref)
         # Update actions or use default value if no value provided
-        x_vel = action['x_velocity'] or 0.0
+        x_vel = action['x_velocity'] or 0.3
         y_vel = action['y_velocity'] or 0.0
         self.command.horizontal_velocity = np.array((x_vel, y_vel))
         self.command.yaw_rate = action['yaw_rate'] or 0.0
         self.command.height = action['height'] or self.config.default_z_ref
         self.command.pitch = action['pitch'] or 0.0
         self.config.x_shift = action['com_x_shift'] or self.config.x_shift
+
+        self.config.swing_time = action['swing_time'] or self.config.swing_time
+        self.config.overlap_time = action['overlap_time'] or self.config.overlap_time
 
         # Clip actions to reasonable values
         self.command.horizontal_velocity = np.clip(self.command.horizontal_velocity,

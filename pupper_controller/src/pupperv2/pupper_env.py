@@ -25,22 +25,31 @@ class PupperEnv(gym.Env):
             render_meshes: If simulating, whether to use visually detailed model or basic model
             plane_tilt: Tilt in radians of the ground plane
         """
-        self.action_keys = ["x_velocity", "y_velocity", "height", "pitch", "x_com_shift"]
+        # self.action_keys = ["x_velocity", "y_velocity", "height", "pitch", "x_com_shift"]
+        self.action_keys = ["overlap_time", "swing_time"]
 
         # Defines lower and upper bounds on possible actions
         # Order of elements:
         # x velocity, y velocity, yaw rate, height, pitch, x_com_shift
+        # self.action_space = gym.spaces.Box(
+        #     np.array([-1.2, -0.4, -0.14, -0.1, -0.01]),
+        #     np.array([1.2, 0.4, -0.08, 0.1, 0.01]),
+        #     dtype=np.float32)
         self.action_space = gym.spaces.Box(
-            np.array([-1.2, -0.4, -0.14, -0.1, -0.01]),
-            np.array([1.2, 0.4, -0.08, 0.1, 0.01]),
+            np.array([0, 0]),
+            np.array([0.25, 0.25]),
             dtype=np.float32)
 
         # Defines expected lower and upper bounds on observations
         # Order of elements
         # roll, pitch, the 12 joint angles
+        # self.observation_space = gym.spaces.Box(
+        #     np.array([-0.5*math.pi, -0.5*math.pi] + 12*[-0.5*math.pi]),
+        #     np.array([0.5*math.pi, 0.5*math.pi] + 12*[0.5*math.pi]),
+        #     dtype=np.float32)
         self.observation_space = gym.spaces.Box(
-            np.array([-0.5*math.pi, -0.5*math.pi] + 12*[-0.5*math.pi]),
-            np.array([0.5*math.pi, 0.5*math.pi] + 12*[0.5*math.pi]),
+            np.array([0]),
+            np.array([0]),
             dtype=np.float32)
 
         self.env_step_counter = 0
@@ -91,11 +100,13 @@ class PupperEnv(gym.Env):
         if isinstance(actions, dict):
             action_dict = actions
         else:
-            action_dict = {'x_velocity': actions[0],
-                           'y_velocity': actions[1],
-                           'height': actions[2],
-                           'pitch': actions[3],
-                           'com_x_shift': actions[4]}
+            # action_dict = {'x_velocity': actions[0],
+            #                'y_velocity': actions[1],
+            #                'height': actions[2],
+            #                'pitch': actions[3],
+            #                'com_x_shift': actions[4]}
+            action_dict = {'swing_time': actions[0],
+                           'overlap_time': actions[1]}
         observation = self.pupper.step(action_dict)
         reward = self.reward(observation)
         done = self.terminate(observation)
