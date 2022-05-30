@@ -36,7 +36,7 @@ class PupperEnv(gym.Env):
         #     np.array([1.2, 0.4, -0.08, 0.1, 0.01]),
         #     dtype=np.float32)
         self.action_space = gym.spaces.Box(
-            np.array([0, 0]),
+            np.array([0.01, 0.01]),
             np.array([0.25, 0.25]),
             dtype=np.float32)
 
