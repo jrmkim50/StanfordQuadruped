@@ -48,8 +48,8 @@ class PupperEnv(gym.Env):
         #     np.array([0.5*math.pi, 0.5*math.pi] + 12*[0.5*math.pi]),
         #     dtype=np.float32)
         self.observation_space = gym.spaces.Box(
-            np.array([0]),
-            np.array([0]),
+            np.array([0]*14),
+            np.array([0]*14),
             dtype=np.float32)
 
         self.env_step_counter = 0
