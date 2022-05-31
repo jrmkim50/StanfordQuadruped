@@ -332,12 +332,12 @@ class ARSLearner(object):
         return g_hat
         
 
-    def train_step(self):
+    def train_step(self, plane_tilt = 0.0):
         """ 
         Perform one update step of the policy weights.
         """
         
-        g_hat = self.aggregate_rollouts()                    
+        g_hat = self.aggregate_rollouts(plane_tilt = plane_tilt)                    
         print("Euclidean norm of update step:", np.linalg.norm(g_hat))
         self.w_policy -= self.optimizer._compute_step(g_hat).reshape(self.w_policy.shape)
         return
@@ -354,7 +354,7 @@ class ARSLearner(object):
                 plane_tilt += (math.pi / 180 * 5)
                 print(plane_tilt)
             t1 = time.time()
-            self.train_step()
+            self.train_step(plane_tilt = -plane_tilt)
             t2 = time.time()
             print('total time of one step', t2 - t1)           
             print('iter ', i,' done')
