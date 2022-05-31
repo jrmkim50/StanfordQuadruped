@@ -350,9 +350,9 @@ class ARSLearner(object):
         plane_tilt = 0
         
         for i in range(num_iter):
-            if i % (num_iter // 10) == 0 and i != 0:
-                plane_tilt += (math.pi / 180 * 5)
-                print(plane_tilt)
+            # if i % (num_iter // 10) == 0 and i != 0:
+            #     plane_tilt += (math.pi / 180 * 5)
+            #     print(plane_tilt)
             t1 = time.time()
             self.train_step(plane_tilt = -plane_tilt)
             t2 = time.time()
@@ -367,6 +367,7 @@ class ARSLearner(object):
                 
                 mean_rewards = np.mean(rewards)
                 if (mean_rewards > best_mean_rewards):
+                  plane_tilt += (math.pi / 180 * 1)
                   best_mean_rewards = mean_rewards
                   np.savez(self.logdir + "/lin_policy_plus_best_"+str(i+1), w)
                   
