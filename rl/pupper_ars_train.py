@@ -367,7 +367,8 @@ class ARSLearner(object):
                 
                 mean_rewards = np.mean(rewards)
                 if (mean_rewards > best_mean_rewards):
-                  plane_tilt += (math.pi / 180 * 1)
+                  if i > 200:
+                    plane_tilt += (math.pi / 180 * 1)
                   best_mean_rewards = mean_rewards
                   np.savez(self.logdir + "/lin_policy_plus_best_"+str(i+1), w)
                   
