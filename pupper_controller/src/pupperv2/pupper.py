@@ -78,7 +78,9 @@ class Pupper:
         self.command.horizontal_velocity = np.array((x_vel, y_vel))
         self.command.yaw_rate = action['yaw_rate'] or 0.0
         self.command.height = action['height'] or self.config.default_z_ref
-        self.command.pitch = action['pitch'] or 0.0
+        # self.command.pitch = action['pitch'] or 0.0
+        # APPARENTLY ROLL controls the robot's pitch!!
+        self.command.roll = action['pitch'] or 0.0
         self.config.x_shift = action['com_x_shift'] or self.config.x_shift
 
         self.config.swing_time = action['swing_time'] or self.config.swing_time
