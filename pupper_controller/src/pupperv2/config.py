@@ -53,11 +53,11 @@ class Config:
             [[1, 1, 1, 0], [1, 0, 1, 1], [1, 0, 1, 1], [1, 1, 1, 0]]
         )
         self.overlap_time = (
-            0.07533701 # 0.05  # duration of the phase where all four feet are on the ground
+            0.05 # 0.07533701  # duration of the phase where all four feet are on the ground
         )
         self.max_overlap_time = 0.2
         self.swing_time = (
-            0.03158285 # 0.15  # duration of the phase when only two feet are on the ground
+            0.15 # 0.03158285 # duration of the phase when only two feet are on the ground
         )
 
         ######################## GEOMETRY ######################

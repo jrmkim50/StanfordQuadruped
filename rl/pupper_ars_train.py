@@ -479,7 +479,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--env_name', type=str, default='InvertedPendulumSwingupBulletEnv-v0')
     parser.add_argument('--n_iter', '-n', type=int, default=3000)
-    parser.add_argument('--n_directions', '-nd', type=int, default=32)
+    parser.add_argument('--n_directions', '-nd', type=int, default=16)
     parser.add_argument('--deltas_used', '-du', type=int, default=16)
     parser.add_argument('--step_size', '-s', type=float, default=0.03)
     parser.add_argument('--delta_std', '-std', type=float, default=.03)
@@ -491,7 +491,7 @@ if __name__ == '__main__':
     # for Humanoid-v1 used shift = 5
     parser.add_argument('--shift', type=float, default=0)
     parser.add_argument('--seed', type=int, default=37)
-    parser.add_argument('--policy_type', type=str, help="Policy type, linear or nn (neural network)", default= 'nn')
+    parser.add_argument('--policy_type', type=str, help="Policy type, linear or nn (neural network)", default= 'linear')
     parser.add_argument('--dir_path', type=str, default='data')
 
     # for ARS V1 use filter = 'NoFilter'
