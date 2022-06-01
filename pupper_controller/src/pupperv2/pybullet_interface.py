@@ -44,8 +44,8 @@ class Interface:
     ):
         self.config = config
         self.action_repeat = action_repeat
-        self.position_kp = position_kp
-        self.position_kd = position_kd
+        self.position_kp = self.config.KP
+        self.position_kd = self.config.KD
         self.plane_tilt = plane_tilt
         self.plane_friction = plane_friction
         self.feet_friction = feet_friction
@@ -162,6 +162,9 @@ class Interface:
         joint_angles : [numpy array (3, 4)]
             Joint angles, radians, with body axes RH rule convention
         """
+
+        self.position_kp = self.config.KP
+        self.position_kd = self.config.KD
 
         for i in range(self.action_repeat):
             (position, velocity) = self.read_joint_position_velocity()

@@ -27,6 +27,9 @@ class Config:
         self.min_height = -0.16
         self.max_height = -0.10
 
+        self.KP = 3
+        self.KD = 0.1
+
         #################### STANCE ####################
         self.delta_x = 0.1
         self.delta_y = 0.08

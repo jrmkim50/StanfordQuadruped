@@ -86,6 +86,9 @@ class Pupper:
         self.config.swing_time = action['swing_time'] or self.config.swing_time
         self.config.overlap_time = action['overlap_time'] or self.config.overlap_time
 
+        self.config.KP = action['kp'] or self.config.KP
+        self.config.KD = action['kd'] or self.config.KD
+
         # Clip actions to reasonable values
         self.command.horizontal_velocity = np.clip(self.command.horizontal_velocity,
                                                    (self.config.min_x_velocity,
