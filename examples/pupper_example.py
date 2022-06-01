@@ -18,10 +18,10 @@ def run_example():
 
     try:
         while True:
-            pup.step(action={"x_velocity": 0.0,
-                             "y_velocity": 0.2,
+            pup.step(action={"x_velocity": 0.3,
+                             "y_velocity": 0.0,
                              "height": -0.14,
-                             "com_x_shift": 0.005})
+                             "com_x_shift": 0.005, 'kp': 5, 'kd': 0.1})
             ob = pup.get_observation()
             time.sleep(0.01)
     finally:
