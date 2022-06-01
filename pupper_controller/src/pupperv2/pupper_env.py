@@ -32,7 +32,7 @@ class PupperEnv(gym.Env):
         # x velocity, y velocity, height, pitch, x_com_shift
         self.action_space = gym.spaces.Box(
             np.array([-1.2, -0.4, -0.14, -2, -30.0 * np.pi / 180.0, -0.01, 3, 0.01]),
-            np.array([1.2, 0.4, -0.08, 2, 30.0 * np.pi / 180.0, 0.01, 6, 0.7]),
+            np.array([1.2, 0.4, -0.08, 2, 30.0 * np.pi / 180.0, 0.01, 4, 0.05]),
             dtype=np.float32)
 
         # Defines expected lower and upper bounds on observations
