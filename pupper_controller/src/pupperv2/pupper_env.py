@@ -25,14 +25,14 @@ class PupperEnv(gym.Env):
             render_meshes: If simulating, whether to use visually detailed model or basic model
             plane_tilt: Tilt in radians of the ground plane
         """
-        self.action_keys = ["x_velocity", "y_velocity",  "height", "yaw_rate", "pitch", "x_com_shift"] #, "kp", "kd"
+        self.action_keys = ["x_velocity", "y_velocity",  "height", "yaw_rate", "pitch", "x_com_shift", "kp", "kd"]
         # modify the kp, kd of the legs
         # Defines lower and upper bounds on possible actions
         # Order of elements:
         # x velocity, y velocity, height, pitch, x_com_shift
         self.action_space = gym.spaces.Box(
-            np.array([-1.2, -0.4, -0.14, -2, -30.0 * np.pi / 180.0, -0.01]), #, 1, 0.1
-            np.array([1.2, 0.4, -0.08, 2, 30.0 * np.pi / 180.0, 0.01]), #, 3, 0.5
+            np.array([-1.2, -0.4, -0.14, -2, -30.0 * np.pi / 180.0, -0.01, 2, 0.01]),
+            np.array([1.2, 0.4, -0.08, 2, 30.0 * np.pi / 180.0, 0.01, 6, 0.5]),
             dtype=np.float32)
 
         # Defines expected lower and upper bounds on observations
@@ -97,9 +97,9 @@ class PupperEnv(gym.Env):
                            'height': actions[2],
                            'yaw_rate': actions[3],
                            'pitch': actions[4],
-                           'com_x_shift': actions[5]}
-                        #    'kp': actions[6], 
-                        #    'kd': actions[7]
+                           'com_x_shift': actions[5], 
+                           'kp': actions[6], 
+                           'kd': actions[7]}
         observation = self.pupper.step(action_dict)
         reward = self.reward(observation)
         done = self.terminate(observation)
