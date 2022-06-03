@@ -82,9 +82,9 @@ def main(argv):
                    'action_lower_bound' : ac_lb,
                    'action_upper_bound' : ac_ub,
   }
-  policy_params['weights'] = weights
-  policy_params['observation_filter_mean'] = mu
-  policy_params['observation_filter_std'] = std
+  # policy_params['weights'] = weights
+  # policy_params['observation_filter_mean'] = mu
+  # policy_params['observation_filter_std'] = std
   if params["policy_type"]=="nn":
     print("FullyConnectedNeuralNetworkPolicy")
     policy_sizes_string = params['policy_network_size_list'].split(',')
@@ -95,7 +95,7 @@ def main(argv):
     policy = policies.FullyConnectedNeuralNetworkPolicy(policy_params, update_filter=False)
   else:
     print("LinearPolicy2")
-    policy = policies.LinearPolicy2(policy_params, update_filter=False)
+    policy = policies.LinearPolicy2(policy_params, update_filter=True)
   policy.get_weights()
 
   returns = []
