@@ -13,7 +13,6 @@ import gym
 from packaging import version
 
 import arspb.logz as logz
-import ray
 import arspb.utils as utils
 import arspb.optimizers as optimizers
 from arspb.policies import *
