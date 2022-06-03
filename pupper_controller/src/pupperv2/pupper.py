@@ -160,8 +160,8 @@ class Pupper:
         Note: Can use this on real robot https://github.com/erwincoumans/motion_imitation/blob/master/mpc_controller/com_velocity_estimator.py
         """
         if self.run_on_robot:
-            pass
-            # raise NotImplementedError
+            return 0
+            raise NotImplementedError
         else:
             (linear, angular) = self.hardware_interface._bullet_client.getBaseVelocity(
                 self.hardware_interface.robot_id)
