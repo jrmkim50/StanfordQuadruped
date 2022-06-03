@@ -164,8 +164,8 @@ def main(argv):
         pickle.dump(log_dict, f)
 
     print('returns: ', returns)
-    print('mean return: ', np.mean(returns))
-    print('std of return: ', np.std(returns))
+    # print('mean return: ', np.mean(returns))
+    # print('std of return: ', np.std(returns))
 
     if args.plot and not args.run_on_robot:
         import matplotlib.pyplot as plt
