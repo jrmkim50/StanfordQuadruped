@@ -22,7 +22,7 @@ import pickle
 from pupper_controller.src.pupperv2 import pupper_env
 
 def create_pupper_env():
-  env = pupper_env.PupperEnv(render=True, plane_tilt=-math.pi / 180 * 0)
+  env = pupper_env.PupperEnv(render=False, run_on_robot=True, plane_tilt=-math.pi / 180 * 0)
   return env
 
 
