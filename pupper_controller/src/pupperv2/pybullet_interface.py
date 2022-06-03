@@ -101,7 +101,8 @@ class Interface:
         self.robot_state.position, self.robot_state.velocity = self.read_joint_position_velocity()
 
     def set_joint_space_parameters(self, kp, kd, max_current):
-        raise NotImplemented
+        pass
+        # raise NotImplemented
 
     def set_cartesian_parameters(self, kps, kds, max_current):
         """[summary]
@@ -115,7 +116,8 @@ class Interface:
         max_current : [type]
             [description]
         """
-        raise NotImplemented
+        pass
+        # raise NotImplemented
 
     def activate(self):
         pybullet.setAdditionalSearchPath(
