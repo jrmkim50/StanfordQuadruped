@@ -101,7 +101,7 @@ class PupperEnv(gym.Env):
                            'kp': actions[6], 
                            'kd': actions[7]}
         observation = self.pupper.step(action_dict)
-        reward = self.reward(observation)
+        reward = 0 #self.reward(observation)
         done = self.terminate(observation)
         self.env_step_counter += 1
         return observation, reward, done, {}
