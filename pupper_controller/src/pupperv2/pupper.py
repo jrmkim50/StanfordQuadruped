@@ -161,7 +161,6 @@ class Pupper:
         """
         if self.run_on_robot:
             return [0, 0]
-            #raise NotImplementedError
         else:
             (linear, angular) = self.hardware_interface._bullet_client.getBaseVelocity(
                 self.hardware_interface.robot_id)
