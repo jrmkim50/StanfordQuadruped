@@ -68,7 +68,7 @@ class PupperEnv(gym.Env):
 
     def reward(self, observation):
         #dx = self.pupper.body_velocity()[0] * self.pupper.config.dt
-        return 1.0 + 0 #dx
+        return 1.0 #dx
 
     def terminate(self, observation):
         roll = observation[0]
