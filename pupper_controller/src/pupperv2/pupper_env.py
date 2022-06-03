@@ -76,12 +76,12 @@ class PupperEnv(gym.Env):
 
         # Terminate if body (id=-1) touches ground
         # Foot ids are 3, 7, 11, 15
-        contact_points = self.pupper.hardware_interface._bullet_client.getContactPoints(
-            self.pupper.hardware_interface.robot_id, self.pupper.hardware_interface.floor_id)
-        for contact_point in contact_points:
-            pupper_link_id = contact_point[3]
-            if pupper_link_id == -1:
-                return True
+        # contact_points = self.pupper.hardware_interface._bullet_client.getContactPoints(
+        #     self.pupper.hardware_interface.robot_id, self.pupper.hardware_interface.floor_id)
+        # for contact_point in contact_points:
+        #     pupper_link_id = contact_point[3]
+        #     if pupper_link_id == -1:
+        #         return True
 
         return False
 
