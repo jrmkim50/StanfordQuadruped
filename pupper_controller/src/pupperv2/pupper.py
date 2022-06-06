@@ -79,8 +79,16 @@ class Pupper:
         self.command.horizontal_velocity = np.array((x_vel, y_vel))
         self.command.yaw_rate = action['yaw_rate'] or 0.0
         self.command.height = action['height'] or self.config.default_z_ref
-        self.command.pitch = action['pitch'] or 0.0
+        # self.command.pitch = action['pitch'] or 0.0	
+        # APPARENTLY ROLL controls the robot's pitch!!	
+        self.command.roll = action['pitch'] or 0.0	
         self.config.x_shift = action['com_x_shift'] or self.config.x_shift
+        self.config.swing_time = action['swing_time'] or self.config.swing_time	
+        self.config.overlap_time = action['overlap_time'] or self.config.overlap_time	
+        # self.config.KP = np.clip(action['kp'], self.config.KP - 0.2, self.config.KP + 0.2) or self.config.KP	
+        # self.config.KD = np.clip(action['kd'], self.config.KD - 0.1, self.config.KD + 0.1) or self.config.KD	
+        self.config.KP = action['kp'] or self.config.KP	
+        self.config.KD = action['kd'] or self.config.KD	
 
         # Clip actions to reasonable values
         self.command.horizontal_velocity = np.clip(self.command.horizontal_velocity,
@@ -121,8 +129,10 @@ class Pupper:
             self.state.final_foot_locations)
         return self.get_observation()
 
-    def reset(self):
+    def reset(self, plane_tilt = 0.0):
         # TODO figure out how to do a slow stand on real robot, but in sim doing 1) slow stand for realistic mode 2) instantaenous stand for training mode
+        if not self.run_on_robot:	
+            self.hardware_interface.plane_tilt = plane_tilt
         self.hardware_interface.deactivate()
         self.hardware_interface.activate()
         return self.get_observation()
@@ -149,12 +159,12 @@ class Pupper:
         Note: Can use this on real robot https://github.com/erwincoumans/motion_imitation/blob/master/mpc_controller/com_velocity_estimator.py
         """
         if self.run_on_robot:
-            raise NotImplementedError
+            return [0, 0]
         else:
             (linear, angular) = self.hardware_interface._bullet_client.getBaseVelocity(
                 self.hardware_interface.robot_id)
             return linear
-            
+
 # import numpy as np
 # import time
 # from pupper_controller.src.common import controller
